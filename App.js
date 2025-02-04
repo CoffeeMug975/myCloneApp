@@ -1,32 +1,36 @@
+// Created by: Daniel Asefa
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert, Button, Image, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Alert, Button, Image, FlatList, TouchableOpacity } from 'react-native';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import CreatedAlert from "./created-alert";
+import ChatScreen from "./chat-screen.js";
 
-export default function App() {
-  
-  // Create sample data for the chat list
-  const chatList = [
-    {id:1, image: require('./assets/User-John.jpg'), name: 'John', message: 'Hello there!', date: '2024-12-30'},
-    {id:2, image: require('./assets/User-Alice.jpg'), name: 'Alice', message: 'How are you today.', date: '2024-10-25'},
-    {id:3, image: require('./assets/User-Peter.jpg'), name: 'Peter', message: 'Did you get my email', date: '2024-11-27'},
-    {id:4, image: require('./assets/User-Smith.jpg'), name: 'Smith', message: 'I use Arch BTW.', date: '2024-12-29'},
-    {id:5, image: require('./assets/User-Brian.jpg'), name: 'Brian', message: 'Great hearing from you have a nice day', date: '2024-12-30'},
-    {id: 6, image: require('./assets/User-Sara.jpg'), name: 'Sara', message: 'See you at the meeting.', date: '2024-12-31'},
-    {id: 7, image: require('./assets/User-Michael.jpg'), name: 'Michael', message: 'Just finished the project.', date: '2024-11-20'},
-    {id: 8, image: require('./assets/User-Diana.jpg'), name: 'Diana', message: 'Happy Birthday!', date: '2024-10-05'},
-    {id: 9, image: require('./assets/User-Kevin.jpg'), name: 'Kevin', message: 'Let’s catch up soon.', date: '2024-12-15'},
-    {id: 10, image: require('./assets/User-Generic.png'), name: 'Linda', message: 'I got the tickets!', date: '2024-09-18'},
-    {id: 11, image: require('./assets/User-Generic.png'), name: 'Tom', message: 'Call me when you’re free.', date: '2024-10-22'},
-    {id: 12, image: require('./assets/User-Generic.png'), name: 'Nina', message: 'Lunch tomorrow?', date: '2024-12-01'},
-    {id: 13, image: require('./assets/User-Generic.png'), name: 'George', message: 'Check your inbox.', date: '2024-11-09'},
-    {id: 14, image: require('./assets/User-Generic.png'), name: 'Victor', message: 'Game night this weekend?', date: '2024-12-07'},
-    {id: 15, image: require('./assets/User-Generic.png'), name: 'Emma', message: 'I loved the movie!', date: '2024-08-30'},
-  ];
+// Create Stack Navigator
+const Stack = createNativeStackNavigator();
 
-  // Create Alert function Here
-  const showAlert = () => {
-    Alert.alert('Welcome to WhatsApp', 'This is a simple WhatsApp clone created using React Native');
-  };
+// Create sample data for the chat list
+const chatList = [
+  {id:1, image: require('./assets/User-John.jpg'), name: 'John', message: 'Hello there!', date: '2024-12-30'},
+  {id:2, image: require('./assets/User-Alice.jpg'), name: 'Alice', message: 'How are you today.', date: '2024-10-25'},
+  {id:3, image: require('./assets/User-Peter.jpg'), name: 'Peter', message: 'Did you get my email', date: '2024-11-27'},
+  {id:4, image: require('./assets/User-Smith.jpg'), name: 'Smith', message: 'I use Arch BTW.', date: '2024-12-29'},
+  {id:5, image: require('./assets/User-Brian.jpg'), name: 'Brian', message: 'Great hearing from you have a nice day', date: '2024-12-30'},
+  {id: 6, image: require('./assets/User-Sara.jpg'), name: 'Sara', message: 'See you at the meeting.', date: '2024-12-31'},
+  {id: 7, image: require('./assets/User-Michael.jpg'), name: 'Michael', message: 'Just finished the project.', date: '2024-11-20'},
+  {id: 8, image: require('./assets/User-Diana.jpg'), name: 'Diana', message: 'Happy Birthday!', date: '2024-10-05'},
+  {id: 9, image: require('./assets/User-Kevin.jpg'), name: 'Kevin', message: 'Let’s catch up soon.', date: '2024-12-15'},
+  {id: 10, image: require('./assets/User-Generic.png'), name: 'Linda', message: 'I got the tickets!', date: '2024-09-18'},
+  {id: 11, image: require('./assets/User-Generic.png'), name: 'Tom', message: 'Call me when you’re free.', date: '2024-10-22'},
+  {id: 12, image: require('./assets/User-Generic.png'), name: 'Nina', message: 'Lunch tomorrow?', date: '2024-12-01'},
+  {id: 13, image: require('./assets/User-Generic.png'), name: 'George', message: 'Check your inbox.', date: '2024-11-09'},
+  {id: 14, image: require('./assets/User-Generic.png'), name: 'Victor', message: 'Game night this weekend?', date: '2024-12-07'},
+  {id: 15, image: require('./assets/User-Generic.png'), name: 'Emma', message: 'I loved the movie!', date: '2024-08-30'},
+];
 
+
+// Home Screen (Main WhatsApp UI)
+const HomeScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
 
@@ -73,10 +77,12 @@ export default function App() {
       <View style={styles.navBar}>
         
         {/* Chats */}
-        <View style={{ alignItems: 'center' }}> 
-          <Image source={require('./assets/WhatsApp-LowerMenu-Chats.png')} style={{ width: 40, height: 40 }} />
-          <Text>Chats</Text>
-        </View>
+        <TouchableOpacity onPress={() => navigation.navigate("Chat")}>
+          <View style={{ alignItems: "center" }}>
+            <Image source={require("./assets/WhatsApp-LowerMenu-Chats.png")} style={{ width: 40, height: 40 }} />
+            <Text style={{ color: "#1FAB61", fontWeight: "bold" }}>Chats</Text>
+          </View>
+        </TouchableOpacity>
         
         {/* Updates */}
         <View style={{ alignItems: 'center' }}> 
@@ -100,11 +106,23 @@ export default function App() {
 
       {/* Alert (On top of navbar) */}
       <View style={{height: '5%', paddingBottom: '0%', fontSize: 5}}>
-        <Button title="Alert" onPress={showAlert} />
+        <CreatedAlert />
       </View>
 
       <StatusBar style="auto" />
     </View>
+  );
+}
+
+// Main App Function with Navigation
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }}/>
+        <Stack.Screen name="Chat" component={ChatScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
