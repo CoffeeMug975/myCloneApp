@@ -6,7 +6,7 @@ const ChatScreen = () => {
   const [messages, setMessages] = useState([]); // Stores chat messages
   const [inputText, setInputText] = useState(""); // Stores typed text
 
-  // Function to send a message
+  // Function to send a message 
   const sendMessage = () => {
     if (inputText !== "") { // Only send if not empty
       setMessages([...messages, { id: Date.now().toString(), text: inputText }]);
